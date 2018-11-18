@@ -52,16 +52,30 @@ class Colony: CustomStringConvertible {
     
     func neighboring(xCoor: Int, yCoor: Int) -> Set<Coor> {
         var neighbor = Set<Coor>()
-        neighbor.insert(Coor((xCoor-1)%colonySize, (yCoor-1)%colonySize))
-        neighbor.insert(Coor(xCoor%colonySize, (yCoor-1)%colonySize))
-        neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor-1)%colonySize))
-        neighbor.insert(Coor((xCoor-1)%colonySize, yCoor%colonySize))
-        neighbor.insert(Coor((xCoor+1)%colonySize, yCoor%colonySize))
-        neighbor.insert(Coor((xCoor-1)%colonySize, (yCoor+1)%colonySize))
-        neighbor.insert(Coor(xCoor%colonySize, (yCoor+1)%colonySize))
-        neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor+1)%colonySize))
+        neighbor.insert(Coor(xCoor-1, yCoor-1))
+        neighbor.insert(Coor(xCoor, yCoor-1))
+        neighbor.insert(Coor(xCoor+1, yCoor-1))
+        neighbor.insert(Coor(xCoor-1, yCoor))
+        neighbor.insert(Coor(xCoor+1, yCoor))
+        neighbor.insert(Coor(xCoor-1, yCoor+1))
+        neighbor.insert(Coor(xCoor, yCoor+1))
+        neighbor.insert(Coor(xCoor+1, yCoor+1))
         return neighbor
+        
     /*
+         FIRST TEST
+         var neighbor = Set<Coor>()
+         neighbor.insert(Coor((xCoor-1)%20, (yCoor-1)%20))
+         neighbor.insert(Coor(xCoor%20, (yCoor-1)%20))
+         neighbor.insert(Coor((xCoor+1)%20, (yCoor-1)%20))
+         neighbor.insert(Coor((xCoor-1)%20, yCoor%20))
+         neighbor.insert(Coor((xCoor+1)%20, yCoor%20))
+         neighbor.insert(Coor((xCoor-1)%20, (yCoor+1)%20))
+         neighbor.insert(Coor(xCoor%20, (yCoor+1)%20))
+         neighbor.insert(Coor((xCoor+1)%20, (yCoor+1)%20))
+         return neighbor
+         
+         SECOND TEST
          var neighbor = Set<Coor>()
          neighbor.insert(Coor(xCoor%colonySize-1, yCoor%colonySize-1))
          neighbor.insert(Coor(xCoor%colonySize, yCoor%colonySize-1))
@@ -71,6 +85,18 @@ class Colony: CustomStringConvertible {
          neighbor.insert(Coor(xCoor%colonySize-1, yCoor%colonySize+1))
          neighbor.insert(Coor(xCoor%colonySize, yCoor%colonySize+1))
          neighbor.insert(Coor(xCoor%colonySize+1, yCoor%colonySize+1))
+         return neighbor
+         
+         THIRD TEST
+         var neighbor = Set<Coor>()
+         neighbor.insert(Coor((xCoor-1)%colonySize, (yCoor-1)%colonySize))
+         neighbor.insert(Coor(xCoor%colonySize, (yCoor-1)%colonySize))
+         neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor-1)%colonySize))
+         neighbor.insert(Coor((xCoor-1)%colonySize, yCoor%colonySize))
+         neighbor.insert(Coor((xCoor+1)%colonySize, yCoor%colonySize))
+         neighbor.insert(Coor((xCoor-1)%colonySize, (yCoor+1)%colonySize))
+         neighbor.insert(Coor(xCoor%colonySize, (yCoor+1)%colonySize))
+         neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor+1)%colonySize))
          return neighbor
  */
     }
@@ -130,8 +156,6 @@ c.setCellAlive(xCoor: 17, yCoor: 19)
 c.setCellAlive(xCoor: 18, yCoor: 19)
 
 
-
-print(c)
 
 for _ in 0..<10{
     c.evolve()
