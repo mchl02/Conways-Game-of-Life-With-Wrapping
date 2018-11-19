@@ -21,7 +21,7 @@ class Coor: Hashable {
         return(pair(row, column))
     }
     func pair(_ row: Int, _ column: Int) -> Int {
-        return ((row + column) * (row + column + 1) / 2) + column
+        return (((row + column) * (row + column + 1) / 2) + column)
     }
     static func == (lhs: Coor, rhs: Coor) -> Bool {
         return (lhs.row == rhs.row) && (lhs.column == rhs.column)
@@ -37,9 +37,9 @@ class Colony: CustomStringConvertible {
         self.colonySize = 20
         self.s = Set<Coor>()
     }
-    
+    //This works 
     func setCellAlive(xCoor: Int, yCoor: Int) {
-        s.insert(Coor(xCoor, yCoor))
+        s.insert(Coor(xCoor%colonySize, yCoor%colonySize))
     }
     
     func setCellDead(xCoor: Int, yCoor: Int) {
@@ -47,19 +47,19 @@ class Colony: CustomStringConvertible {
     }
     
     func isCellAlive(xCoor: Int, yCoor: Int) -> Bool {
-        return s.contains(Coor(xCoor, yCoor))
+        return s.contains(Coor(xCoor%colonySize, yCoor%colonySize))
     }
     
     func neighboring(xCoor: Int, yCoor: Int) -> Set<Coor> {
         var neighbor = Set<Coor>()
-        neighbor.insert(Coor(xCoor-1, yCoor-1))
-        neighbor.insert(Coor(xCoor, yCoor-1))
-        neighbor.insert(Coor(xCoor+1, yCoor-1))
-        neighbor.insert(Coor(xCoor-1, yCoor))
-        neighbor.insert(Coor(xCoor+1, yCoor))
-        neighbor.insert(Coor(xCoor-1, yCoor+1))
-        neighbor.insert(Coor(xCoor, yCoor+1))
-        neighbor.insert(Coor(xCoor+1, yCoor+1))
+        neighbor.insert(Coor((xCoor-1)%colonySize, (yCoor-1)%colonySize))
+        neighbor.insert(Coor(xCoor%colonySize, (yCoor-1)%colonySize))
+        neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor-1)%colonySize))
+        neighbor.insert(Coor((xCoor-1)%colonySize, yCoor%colonySize))
+        neighbor.insert(Coor((xCoor+1)%colonySize, yCoor%colonySize))
+        neighbor.insert(Coor((xCoor-1)%colonySize, (yCoor+1)%colonySize))
+        neighbor.insert(Coor(xCoor%colonySize, (yCoor+1)%colonySize))
+        neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor+1)%colonySize))
         return neighbor
         
     /*
@@ -98,7 +98,7 @@ class Colony: CustomStringConvertible {
          neighbor.insert(Coor(xCoor%colonySize, (yCoor+1)%colonySize))
          neighbor.insert(Coor((xCoor+1)%colonySize, (yCoor+1)%colonySize))
          return neighbor
- */
+        */
     }
    
     func neighboringCount(_ x: Int, _ y: Int) -> Int {
@@ -106,10 +106,10 @@ class Colony: CustomStringConvertible {
     }
     
     func decide(_ row: Int, _ col: Int) -> Bool {
-        let count = neighboringCount(row, col)
+        let count = neighboringCount(row%colonySize, col%colonySize)
         if count == 3 {
             return true
-        } else if count == 2 && isCellAlive(xCoor: row, yCoor: col) {
+        } else if count == 2 && isCellAlive(xCoor: row%colonySize, yCoor: col%colonySize) {
             return true
         } else {
             return false
@@ -136,16 +136,17 @@ class Colony: CustomStringConvertible {
     
     func evolve() {
         var s1 = Set<Coor>()
-        s1 = Set( s.map( { neighboring(xCoor: $0.row, yCoor: $0.column) })
+        s1 = Set( s.map( { neighboring(xCoor: $0.row%colonySize, yCoor: $0.column%colonySize) })
             .flatMap({$0}) )
         
-        s = Set( s1.filter( {decide($0.row, $0.column)} ) )
+        s = Set( s1.filter( {decide($0.row%colonySize, $0.column%colonySize)} ) )
         gen += 1
         
     }
 }
 
 var c = Colony()
+
 c.setCellAlive(xCoor: 5, yCoor: 5)
 c.setCellAlive(xCoor: 5, yCoor: 6)
 c.setCellAlive(xCoor: 5, yCoor: 7)
@@ -153,11 +154,18 @@ c.setCellAlive(xCoor: 6, yCoor: 6)
 c.setCellAlive(xCoor: 17, yCoor: 17)
 c.setCellAlive(xCoor: 17, yCoor: 18)
 c.setCellAlive(xCoor: 17, yCoor: 19)
-c.setCellAlive(xCoor: 18, yCoor: 19)
+c.setCellAlive(xCoor: 18, yCoor: 18)
 
 
+
+
+
+
+
+print(c)
 
 for _ in 0..<10{
     c.evolve()
     print(c)
 }
+
